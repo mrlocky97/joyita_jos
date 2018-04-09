@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "331078949403",
+    "firebase_url": "https://adoptpet-f1b0d.firebaseio.com",
+    "project_id": "adoptpet-f1b0d",
+    "storage_bucket": "adoptpet-f1b0d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:331078949403:android:f15878a4d7e1a99c",
+        "android_client_info": {
+          "package_name": "com.example.juansebastianquinayasguarin.pets"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "331078949403-thod3ir8m9j1iiiktcb44m2hbu041m8v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.juansebastianquinayasguarin.pets",
+            "certificate_hash": "166322943fc42f094e66a575aa7c5ad232338fae"
+          }
+        },
+        {
+          "client_id": "331078949403-m3ae5kv9b8rqetvr1er5l653kcc8r8gj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqlSiv2324AMfrBuhhxSWTO_prRzKxdsA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "331078949403-m3ae5kv9b8rqetvr1er5l653kcc8r8gj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
