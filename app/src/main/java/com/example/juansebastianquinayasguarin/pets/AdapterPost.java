@@ -39,6 +39,7 @@ public class AdapterPost implements ListAdapter {
     public AdapterPost() {
     }
 
+    //hola
     public AdapterPost(Context context, ArrayList<Post> listaPost) {
         this.context = context;
         this.listaPost = listaPost;
