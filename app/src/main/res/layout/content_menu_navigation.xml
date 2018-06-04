@@ -5,12 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.juansebastianquinayasguarin.pets.MenuNavigationActivity"
+    tools:context="com.example.juansebastianquinayasguarin.pets.HomeActivity"
     tools:showIn="@layout/app_bar_menu_navigation">
+
+    <SearchView
+        android:id="@+id/miSv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="550dp" />
 
     <ListView
         android:id="@+id/lv_principal_pg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp">
+
+    </ListView>
 
 </RelativeLayout>

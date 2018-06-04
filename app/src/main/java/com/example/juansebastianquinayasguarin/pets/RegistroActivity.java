@@ -1,12 +1,14 @@
 package com.example.juansebastianquinayasguarin.pets;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -26,6 +28,8 @@ public class RegistroActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_registro);
 
         nombre = (EditText) findViewById(R.id.ET_nombre_reg);
@@ -48,6 +52,7 @@ public class RegistroActivity extends AppCompatActivity {
                 String ema = email.getText().toString().trim();
                 String contrasena1 = cont1.getText().toString().trim();
                 String contrasena2 = cont2.getText().toString().trim();
+                String imagenperfil = "null";
                 //comprovamos que coje todos lo datos
                 Log.v("datos reg", nom + " / " + tel + " / " + ema + " / " + contrasena1 + " / " + contrasena2);
                 if (!TextUtils.isEmpty(nom) && !TextUtils.isEmpty(tel) && !TextUtils.isEmpty(ema) && !TextUtils.isEmpty(contrasena1) && !TextUtils.isEmpty(contrasena2)) {

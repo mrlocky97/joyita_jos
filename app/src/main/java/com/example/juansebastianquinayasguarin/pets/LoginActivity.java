@@ -1,11 +1,13 @@
 package com.example.juansebastianquinayasguarin.pets;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,14 +26,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 
-        imagenCircular = (CircularImageView) findViewById(R.id.img_circular_loign);
         email = (EditText) findViewById(R.id.ET_email_login);
         contraseña = (EditText) findViewById(R.id.ET_cont_login);
 
         entrar = (Button) findViewById(R.id.btn_entrar_login);
-        registrarse = (Button) findViewById(R.id.btn_registarse_login);
+        registrarse = (Button) findViewById(R.id.btn_registrarse_login);
 
         registrarse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(LoginActivity.this, "Se ha logeado con exito.", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, MenuNavigationActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     startActivity(intent);
                 } else {
                     Toast.makeText(LoginActivity.this, "Error de logeo vuelva a intentarlo.", Toast.LENGTH_SHORT).show();

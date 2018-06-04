@@ -23,13 +23,15 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegistroActivity" />
         <activity
-            android:name=".MenuNavigationActivity"
+            android:name=".HomeActivity"
             android:label="@string/title_activity_menu_navigation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".profileUserActivity"
-            android:label="@string/title_activity_prueba"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".AddFavorActivity" />
+        <activity android:name=".AddFavorImagenActivity"></activity>
     </application>
 
 </manifest>
