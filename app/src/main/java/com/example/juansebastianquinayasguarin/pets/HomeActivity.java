@@ -1,13 +1,11 @@
 package com.example.juansebastianquinayasguarin.pets;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -23,10 +21,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -50,7 +48,7 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity
 
-        implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, GotPost {
+        implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener,GotPost {
     ArrayList<Post> listaPOST = new ArrayList<>();
     TextView nombreMenu, emailMenu;
     EditText tituloDialog, descDialod;
@@ -68,7 +66,10 @@ public class HomeActivity extends AppCompatActivity
     String miVariable = null;
     Post post;
     String idPost;
+    StorageReference storageReference;
+    FirebaseStorage storage;
     private Database Ddatabase = new Database();
+    RelativeLayout mimiRly;
 
 
     @Override
@@ -78,10 +79,14 @@ public class HomeActivity extends AppCompatActivity
         //declaracion de variables
         vista_lista_post = (ListView) findViewById(R.id.lv_principal_pg);
         miimg_list_view_post = findViewById(R.id.img_list_view_post);
+        mimiRly = findViewById(R.id.miRly);
         miSearchView = findViewById(R.id.miSv);
         firebaseAuth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         //*****************************************************************************
         //declaramos variables
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -110,11 +115,10 @@ public class HomeActivity extends AppCompatActivity
         mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Post p1 = dataSnapshot.getValue(Post.class);
-                miVariable = dataSnapshot.getKey();
+                final Post p1 = dataSnapshot.getValue(Post.class);
 
+                miVariable = dataSnapshot.getKey();
                 Log.v("miV", miVariable);
-                // Log.v("idPostJavi",dataSnapshot.getKey());
 
                 listaPOST.add(p1);
                 AdapterPost adapterPost = new AdapterPost(HomeActivity.this, listaPOST);
@@ -123,7 +127,7 @@ public class HomeActivity extends AppCompatActivity
                 vista_lista_post.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        ampliarPost(HomeActivity.this);
+                        ampliarPost(HomeActivity.this, position);
                     }
                 });
                 //vista_lista_post.setOnItemClickListener(HomeActivity.this,listaPOST);
@@ -151,28 +155,72 @@ public class HomeActivity extends AppCompatActivity
         });
     }
 
-    private void pantallaAbajo() {
+    private void ampliarPost(final Context context, final int position) {
 
-        //vista_lista_post.smoothScrollToPosition(adapterPost.getCount());
-    }
+        final String[] tituloText = {null};
+        final String[] descText = {null};
+        final String[] imgText = {null};
+
+        String idPost = listaPOST.get(position).getIdPost();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("post").child(idPost);
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Post p1 = dataSnapshot.getValue(Post.class);
+                //Log.v("123", p1.getTitulo());
+                tituloText[0] = p1.getTitulo();
+                descText[0] = p1.getDescripcion();
+                imgText[0] = p1.getImagenpost();
+                final View dialogView = LayoutInflater.from(context).inflate(R.layout.ampliar_post_dialog, null);
+                img_amp_dialog = dialogView.findViewById(R.id.img_ampliar_post_dialog);
+                tv_amp_titulo_dialog = dialogView.findViewById(R.id.tv_amp_dialog_titulo);
+                tv_amp_descripsion_dialog = dialogView.findViewById(R.id.tv_amp_dialog_descripsion);
+
+                try{
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                    StorageReference storageReference = storage.getReferenceFromUrl("gs://adoptpet-f1b0d.appspot.com").child("post")
+                            .child(p1.getIdPost()).child("imagenpost");
+                    final File localFile;
+
+                    localFile = File.createTempFile("images", "jpg");
+                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                            img_amp_dialog.setImageBitmap(bitmap);
+
+                        }
+                    });
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+
+                tv_amp_titulo_dialog.setText(tituloText[0]);
+                tv_amp_descripsion_dialog.setText(descText[0]);
 
 
-    private void ampliarPost(Context context) {
-        final View dialogView = LayoutInflater.from(context).inflate(R.layout.ampliar_post_dialog, null);
-        AlertDialog dialog = new AlertDialog.Builder(context)
-                .setTitle("INFORMACION DEL POST")
-                .setView(dialogView)
-                .setPositiveButton(R.string.llamar, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        img_amp_dialog = dialogView.findViewById(R.id.img_ampliar_post_dialog);
-                        tv_amp_titulo_dialog = dialogView.findViewById(R.id.tv_amp_dialog_titulo);
-                        tv_amp_descripsion_dialog = dialogView.findViewById(R.id.tv_amp_dialog_descripsion);
-                    }
-                })
-                .setNegativeButton(R.string.salir, null)
-                .create();
-        dialog.show();
+                //Log.v("enero", tituloText[0] + " " + descText[0] + " " + imgText[0]);
+
+                AlertDialog dialog = new AlertDialog.Builder(context)
+                        .setTitle("INFORMACION DEL POST")
+                        .setView(dialogView)
+                        .setPositiveButton(R.string.llamar, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //se codifica para llamar al movil de la persona
+                            }
+                        })
+                        .setNegativeButton(R.string.salir, null)
+                        .create();
+                dialog.show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
@@ -197,12 +245,12 @@ public class HomeActivity extends AppCompatActivity
         database.getReference("usuarios").child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.v("pp", String.valueOf(dataSnapshot.child("nombre")));
+                //Log.v("pp", String.valueOf(dataSnapshot.child("nombre")));
                 Usuario u1 = dataSnapshot.getValue(Usuario.class);
                 String nom = u1.getNombre();
                 String ema = u1.getEmail();
                 idPost = dataSnapshot.getKey();
-                Log.v("pp2", nom + " " + ema);
+                //Log.v("pp2", nom + " " + ema);
                 emailMenu.setText(ema);
                 nombreMenu.setText(nom);
                 post = Ddatabase.getLoggedPost(HomeActivity.this, idPost);
@@ -274,27 +322,15 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ampliarPost(HomeActivity.this);
     }
+
     @Override
     public void getPostdate(Post post) {
-        try {
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageReference = storage.getReferenceFromUrl("gs://adoptpet-f1b0d.appspot.com").child("post")
-                    .child(idPost).child("imagenpost");
-            final File localFile;
 
-            localFile = File.createTempFile("images", "jpg");
-            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+    }
 
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    @Override
+    public Bitmap getImgPost(Post post) {
+        return null;
     }
 }

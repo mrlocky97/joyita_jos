@@ -95,6 +95,9 @@ public class AddFavorImagenActivity extends AppCompatActivity {
         mibtnAceptaraddFavor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("post");
+                DatabaseReference mDatabase2 = mDatabase.child(idPOST).child("idPost");
+                mDatabase2.setValue(idPOST);
                 Intent intent = new Intent(AddFavorImagenActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
@@ -164,21 +167,20 @@ public class AddFavorImagenActivity extends AppCompatActivity {
 
 
                     final Uri path = data.getData();
-                    final String foto = "fotopost";
+                    final String foto = "imagenpost";
 
                     StorageReference filePath = miStorage.child("post")
                             .child(idPOST).child("imagenpost");
                     filePath.putFile(path).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            String photourl = "gs://adoptpet-f1b0d.appspot.com/fotospost/" + foto;
+                            String photourl = "gs://adoptpet-f1b0d.appspot.com/post/" + idPOST + "/" + foto;
                             //******************************************************************
 
                             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("post");
                             DatabaseReference currentUserDB = mDatabase.child(idPOST).child("imagenpost");
                             currentUserDB.setValue(photourl);
-                            DatabaseReference mDatabase2 = mDatabase.child(idPOST).child("idPost");
-                            mDatabase2.setValue(idPOST);
+
 
                             mProgressDialog.dismiss();
                             miImagenPost.setImageURI(path);

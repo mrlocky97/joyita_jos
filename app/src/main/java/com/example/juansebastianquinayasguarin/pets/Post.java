@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 public class Post {
     String titulo, descripcion, idUsuario;
     String imagenpost, idPost;
+
     public Post() {
     }
 
@@ -59,5 +60,6 @@ public class Post {
     public void setIdPost(String idPost) {
         this.idPost = idPost;
     }
+
 }
 

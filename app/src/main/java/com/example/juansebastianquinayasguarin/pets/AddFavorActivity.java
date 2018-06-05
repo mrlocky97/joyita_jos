@@ -51,7 +51,7 @@ public class AddFavorActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
     private StorageReference miStorage;
     String idPOST = null;
-    ArrayList<String>listIdPost = new ArrayList<>();
+    ArrayList<String> listIdPost = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,64 +109,11 @@ public class AddFavorActivity extends AppCompatActivity {
         String titulo = tituloDialog.getText().toString();
         String descripcion = descDialod.getText().toString();
 
-
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("post");
         Post p1 = new Post(titulo, descripcion, "null", user, "null");
         mDatabase.push().setValue(p1);
-
         Intent intent = new Intent(AddFavorActivity.this, AddFavorImagenActivity.class);
         startActivity(intent);
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case PHOTO_CODE:
-                    MediaScannerConnection.scanFile(this,
-                            new String[]{mPath}, null,
-                            new MediaScannerConnection.OnScanCompletedListener() {
-                                @Override
-                                public void onScanCompleted(String path, Uri uri) {
-                                    Log.i("ExternalStorage", "Scanned " + path);
-                                    Log.i("ExternalStorage", "-> Uri " + uri);
-                                }
-                            });
-                    Bitmap bitmap = BitmapFactory.decodeFile(mPath);
-                    miImagen.setImageBitmap(bitmap);
-                    break;
-                case SELECT_PICTURE:
-                    mProgressDialog.setTitle("Subiendo Foto");
-                    mProgressDialog.setMessage("Subiendo Foto");
-                    mProgressDialog.setCancelable(false);
-                    mProgressDialog.show();
-
-
-                    final Uri path = data.getData();
-                    final String foto = "fotodeperfil";
-
-                    StorageReference filePath = miStorage.child("usuarios")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).child("imagenperfil");
-                    filePath.putFile(path).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            String photourl = "gs://adoptpet-f1b0d.appspot.com/fotos/" + foto;
-                            //******************************************************************
-
-                            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("usuarios");
-                            DatabaseReference currentUserDB = mDatabase.child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).child("imagenperfil");
-                            currentUserDB.setValue(photourl);
-
-                            mProgressDialog.dismiss();
-                            miImagen.setImageURI(path);
-
-                            Toast.makeText(AddFavorActivity.this, "Foto añadida con exito", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-            }
-        }
-    }
 }
