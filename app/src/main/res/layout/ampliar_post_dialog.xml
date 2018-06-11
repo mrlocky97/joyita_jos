@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:text="TextView"
             android:textAlignment="center"
+            android:textColor="@android:color/background_dark"
             android:textSize="20sp" />
 
         <TextView
@@ -33,6 +34,7 @@
             android:layout_height="wrap_content"
             android:text="TextView"
             android:textAlignment="center"
+            android:textColor="@android:color/background_dark"
             android:textSize="18sp" />
 
     </LinearLayout>

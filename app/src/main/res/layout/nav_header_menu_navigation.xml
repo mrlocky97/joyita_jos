@@ -17,7 +17,8 @@
         android:id="@+id/img_foto_menu"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@drawable/jefe" />
+        android:src="@drawable/jefe"
+        app:civ_border_color="@color/black_overlay"/>
 
     <TextView
         android:id="@+id/tv_nom_menu"
@@ -25,12 +26,14 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="nombre del usuario"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
     <TextView
         android:id="@+id/tv_email_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Correo del usuario" />
+        android:text="Correo del usuario"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
 </LinearLayout>

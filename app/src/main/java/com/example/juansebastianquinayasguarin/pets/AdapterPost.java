@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +13,6 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,6 +26,7 @@ public class AdapterPost implements ListAdapter {
 
     private Context context;
     private ArrayList<Post> listaPost = new ArrayList<>();
+    private ArrayList<Bitmap> listaImagen = new ArrayList<>();
     private TextView tv_titulo, tv_desc;
     private ImageView imagen, imginfo;
     Bitmap bitmap = null;
@@ -46,9 +37,10 @@ public class AdapterPost implements ListAdapter {
     }
 
     //hola vhghg
-    public AdapterPost(Context context, ArrayList<Post> listaPost) {
+    public AdapterPost(Context context, ArrayList<Post> listaPost, ArrayList<Bitmap> listaImagen) {
         this.context = context;
         this.listaPost = listaPost;
+        this.listaImagen = listaImagen;
     }
 
     public TextView getTv_titulo() {
@@ -85,6 +77,8 @@ public class AdapterPost implements ListAdapter {
 
     }
 
+
+
     @Override
     public int getCount() {
         return listaPost.size();
@@ -117,8 +111,10 @@ public class AdapterPost implements ListAdapter {
         tv_titulo.setText(listaPost.get(position).getTitulo());
         tv_desc.setText(listaPost.get(position).getDescripcion());
         Log.v("1", listaPost.get(position).getImagenpost());
+       // Log.v("2", listaImagen.get(position).toString());
+        imagen.setImageBitmap(listaImagen.get(position));
 
-            try {
+           /** try {
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageReference = storage.getReferenceFromUrl("gs://adoptpet-f1b0d.appspot.com").child("post")
                         .child(listaPost.get(position).getIdPost()).child("imagenpost");
@@ -136,6 +132,7 @@ public class AdapterPost implements ListAdapter {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            */
 
             //imagen.setImageURI(Uri.parse(listaPost.get(position).getImagenpost()));
             //TOCAR PARA COGER IMG DEL DATABASE
@@ -169,26 +166,7 @@ public class AdapterPost implements ListAdapter {
         return true;
     }
 
-    public void getBitmap(final int poscition) {
 
-    try{
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReferenceFromUrl("gs://adoptpet-f1b0d.appspot.com").child("post")
-                .child(listaPost.get(poscition).getIdPost()).child("imagenpost");
-        final File localFile;
-
-        localFile = File.createTempFile("images", "jpg");
-        storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                Bitmap miBitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                imagen.setImageBitmap(miBitmap);
-            }
-        });
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-    }
 
 
 }

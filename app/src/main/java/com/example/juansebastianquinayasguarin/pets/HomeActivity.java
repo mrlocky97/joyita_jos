@@ -48,8 +48,9 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity
 
-        implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener,GotPost {
+        implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, GotPost {
     ArrayList<Post> listaPOST = new ArrayList<>();
+    ArrayList<Bitmap> listaImagen = new ArrayList<Bitmap>();
     TextView nombreMenu, emailMenu;
     EditText tituloDialog, descDialod;
     ImageView miImagenAnimal;
@@ -65,6 +66,7 @@ public class HomeActivity extends AppCompatActivity
     SearchView miSearchView;
     String miVariable = null;
     Post post;
+    Bitmap miBitmap;
     String idPost;
     StorageReference storageReference;
     FirebaseStorage storage;
@@ -121,7 +123,15 @@ public class HomeActivity extends AppCompatActivity
                 Log.v("miV", miVariable);
 
                 listaPOST.add(p1);
-                AdapterPost adapterPost = new AdapterPost(HomeActivity.this, listaPOST);
+                listaImagen.add(cargarImagenes());
+                Log.v("miva" , String.valueOf(listaImagen.size()));
+
+
+                // codigo a probar.
+                System.out.println("llega hasta aqui");
+
+
+                AdapterPost adapterPost = new AdapterPost(HomeActivity.this, listaPOST, listaImagen);
                 vista_lista_post.setAdapter(adapterPost);
                 //pantallaAbajo();
                 vista_lista_post.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -155,6 +165,26 @@ public class HomeActivity extends AppCompatActivity
         });
     }
 
+    private Bitmap cargarImagenes() {
+        try {
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageReference = storage.getReferenceFromUrl("gs://adoptpet-f1b0d.appspot.com").child("post")
+                    .child(miVariable).child("imagenpost");
+            final File localFile;
+
+            localFile = File.createTempFile("images", "jpg");
+            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    miBitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return miBitmap;
+    }
+
     private void ampliarPost(final Context context, final int position) {
 
         final String[] tituloText = {null};
@@ -176,7 +206,7 @@ public class HomeActivity extends AppCompatActivity
                 tv_amp_titulo_dialog = dialogView.findViewById(R.id.tv_amp_dialog_titulo);
                 tv_amp_descripsion_dialog = dialogView.findViewById(R.id.tv_amp_dialog_descripsion);
 
-                try{
+                try {
                     FirebaseStorage storage = FirebaseStorage.getInstance();
                     StorageReference storageReference = storage.getReferenceFromUrl("gs://adoptpet-f1b0d.appspot.com").child("post")
                             .child(p1.getIdPost()).child("imagenpost");
@@ -191,7 +221,7 @@ public class HomeActivity extends AppCompatActivity
 
                         }
                     });
-                }catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -204,7 +234,7 @@ public class HomeActivity extends AppCompatActivity
                 AlertDialog dialog = new AlertDialog.Builder(context)
                         .setTitle("INFORMACION DEL POST")
                         .setView(dialogView)
-                        .setPositiveButton(R.string.llamar, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.Aceptar, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //se codifica para llamar al movil de la persona

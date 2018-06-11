@@ -1,5 +1,6 @@
 package com.example.juansebastianquinayasguarin.pets;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.annotation.NonNull;
@@ -22,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     private CircularImageView imagenCircular;
     private EditText email, contraseña;
     private Button entrar, registrarse;
+    ProgressDialog mProgess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
 
         entrar = (Button) findViewById(R.id.btn_entrar_login);
         registrarse = (Button) findViewById(R.id.btn_registrarse_login);
+
+        mProgess = new ProgressDialog(this);
 
         registrarse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +68,10 @@ public class LoginActivity extends AppCompatActivity {
         fauth.signInWithEmailAndPassword(email, contraseña).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                mProgess.setMessage("INICIANDO SESION ... ESPERE");
+                mProgess.show();
                 if (task.isSuccessful()) {
+                    mProgess.dismiss();
                     Toast.makeText(LoginActivity.this, "Se ha logeado con exito.", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     startActivity(intent);
