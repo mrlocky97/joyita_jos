@@ -337,7 +337,8 @@ public class HomeActivity extends AppCompatActivity
             Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_protectoras) {
-
+            Intent intent = new Intent(HomeActivity.this, ProtectorasActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_mis_post) {
 
         } else if (id == R.id.nav_logout) {

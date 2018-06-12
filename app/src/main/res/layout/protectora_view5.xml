@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/img_protectora"
+        android:layout_width="match_parent"
+        android:layout_height="168dp"
+        android:layout_weight="1"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/imgspap" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="374dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="1"
+        android:text="Toda una vida dedicada a los animales y al medio ambiente.   La Sociedad Protectora de Animales y Plantas de Madrid lleva trabajando más de setenta y cinco años para estimular el respeto, cuidado y cariño por los animales y por el medio ambiente.  "
+        android:textColor="#006202" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="1"
+        android:text="Teléfono 913 11 91 33"
+        android:textColor="#006202"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="1"
+        android:text="Calle de Ochagavia, 34, 28039 Madrid"
+        android:textColor="#006202"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="1"
+        android:text="Twitter: @albaonlineorg"
+        android:textColor="#006202"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_web"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="1"
+        android:text=" Web: www.spap.net"
+        android:textColor="#006202"
+        android:textSize="18sp" /><![CDATA[@android:color/black" />
+
+    @android:color/black" />
+
+]]>
+</LinearLayout>
