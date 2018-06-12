@@ -65,11 +65,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public void logearse(String email, String contraseña) {
         FirebaseAuth fauth = FirebaseAuth.getInstance();
+        mProgess.setMessage("INICIANDO SESION ... ESPERE");
+        mProgess.show();
         fauth.signInWithEmailAndPassword(email, contraseña).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                mProgess.setMessage("INICIANDO SESION ... ESPERE");
-                mProgess.show();
                 if (task.isSuccessful()) {
                     mProgess.dismiss();
                     Toast.makeText(LoginActivity.this, "Se ha logeado con exito.", Toast.LENGTH_SHORT).show();

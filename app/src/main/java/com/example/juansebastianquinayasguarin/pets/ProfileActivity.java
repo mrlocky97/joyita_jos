@@ -192,8 +192,8 @@ public class ProfileActivity extends AppCompatActivity
         }if (id == R.id.nav_editPerfil) {
 
         } else if (id == R.id.nav_protectoras) {
-
-        } else if (id == R.id.nav_mis_post) {
+            Intent intent = new Intent(ProfileActivity.this, ProtectorasActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_logout) {
             Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
@@ -376,9 +376,9 @@ public class ProfileActivity extends AppCompatActivity
                         String email = tIETEditEmail.getText().toString();
                         String phoneNumber = tIETEditPhoneNumber.getText().toString();
                         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("usuarios").child(userID);
-                        databaseReference.child("personName").setValue(name);
+                        databaseReference.child("nombre").setValue(name);
                         databaseReference.child("email").setValue(email);
-                        databaseReference.child("pnumber").setValue(phoneNumber);
+                        databaseReference.child("telefono").setValue(phoneNumber);
                     }
                 })
                 .setNegativeButton("Cancelar", null)

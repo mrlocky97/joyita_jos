@@ -63,7 +63,6 @@ public class HomeActivity extends AppCompatActivity
     CircularImageView miImagenN;
     TextView tv_amp_titulo_dialog, tv_amp_descripsion_dialog;
     ListView vista_lista_post;
-    SearchView miSearchView;
     String miVariable = null;
     Post post;
     Bitmap miBitmap;
@@ -82,7 +81,6 @@ public class HomeActivity extends AppCompatActivity
         vista_lista_post = (ListView) findViewById(R.id.lv_principal_pg);
         miimg_list_view_post = findViewById(R.id.img_list_view_post);
         mimiRly = findViewById(R.id.miRly);
-        miSearchView = findViewById(R.id.miSv);
         firebaseAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -124,7 +122,7 @@ public class HomeActivity extends AppCompatActivity
 
                 listaPOST.add(p1);
                 listaImagen.add(cargarImagenes());
-                Log.v("miva" , String.valueOf(listaImagen.size()));
+                Log.v("miva", String.valueOf(listaImagen.size()));
 
 
                 // codigo a probar.
@@ -339,7 +337,6 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_protectoras) {
             Intent intent = new Intent(HomeActivity.this, ProtectorasActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_mis_post) {
 
         } else if (id == R.id.nav_logout) {
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
